@@ -12,11 +12,13 @@
     :license: BOLA, see LICENSE for details.
 """
 
+from __future__ import absolute_import
 import errno
 import sys
 import posixpath
 from os import path
 from subprocess import Popen, PIPE
+import six
 try:
     from hashlib import sha1 as sha
 except ImportError:
@@ -73,12 +75,12 @@ def run_cmd(builder, cmd, cmd_name, cfg_name, stdin=''):
     try:
         try:
             p = Popen(cmd, stdout=PIPE, stdin=PIPE, stderr=PIPE)
-        except OSError, err:
+        except OSError as err:
             # workaround for missing shebang of epstopdf script
             if err.errno != getattr(errno, 'ENOEXEC', 0):
                 raise
             p = Popen(cmd, shell=True, stdout=PIPE, stdin=PIPE, stderr=PIPE)
-    except OSError, err:
+    except OSError as err:
         if err.errno != 2:   # No such file or directory
             raise
         builder.warn('%s command %r cannot be run (needed for mscgen '
@@ -145,7 +147,7 @@ def render_msc(self, code, format, prefix='mscgen'):
 
     # mscgen don't support encodings very well. ISO-8859-1 seems to work best,
     # at least for PNG.
-    if isinstance(code, unicode):
+    if isinstance(code, six.text_type):
         code = code.encode('iso-8859-1')
 
     mscgen_args = [self.builder.config.mscgen]
@@ -168,7 +170,7 @@ def render_msc(self, code, format, prefix='mscgen'):
 def render_msc_html(self, node, code, prefix='mscgen', imgcls=None):
     try:
         fname, outfn, id = render_msc(self, code, 'png', prefix)
-    except MscgenError, exc:
+    except MscgenError as exc:
         self.builder.warn('mscgen code %r: ' % code + str(exc))
         raise nodes.SkipNode
 
@@ -198,7 +200,7 @@ def html_visit_mscgen(self, node):
 def render_msc_latex(self, node, code, prefix='mscgen'):
     try:
         fname, outfn, id = render_msc(self, code, 'pdf', prefix)
-    except MscgenError, exc:
+    except MscgenError as exc:
         self.builder.warn('mscgen code %r: ' % code + str(exc))
         raise nodes.SkipNode
 
