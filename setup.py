@@ -28,7 +28,7 @@ requires = ['Sphinx>=0.6']
 
 setup(
     name='sphinxcontrib-mscgen',
-    version='0.4',
+    version='0.5.0-alpha',
     url='http://packages.python.org/sphinxcontrib-mscgen/',
     download_url='http://pypi.python.org/pypi/sphinxcontrib-mscgen',
     license='BOLA',
@@ -38,7 +38,7 @@ setup(
     long_description=long_desc,
     zip_safe=False,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Alpha',
         'Environment :: Console',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
