@@ -28,7 +28,10 @@ from docutils import nodes
 
 from sphinx.errors import SphinxError
 from sphinx.util import ensuredir
-from docutils.parsers.rst import Directive
+try:
+    from sphinx.util.compat import Directive
+except ImportError:
+    from docutils.parsers.rst import Directive
 
 
 class MscgenError(SphinxError):
